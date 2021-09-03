@@ -1,0 +1,19 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+<h1>@Model.Message</h1>
+<h2>@Model.Url</h2>
+<h2>@Model.Year</h2>
+<hr />
+<table class="table">
+    @foreach (var item in Model.ConfigList)
+    {
+        <tr>
+            <td>@item.Key</td>
+            <td>@item.Value</td>
+		</tr>
+    }
+
+</table>
