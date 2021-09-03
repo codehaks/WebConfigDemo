@@ -1,13 +1,9 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
 
 namespace WebApplication10
 {
@@ -23,12 +19,26 @@ namespace WebApplication10
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<MyAppOptions>(options =>
+            {
+                options.SendNotification = true;
+                options.SmsNumber = 50001000;
+                options.DocPath = "/files";
+            });
+            services.Configure<MyAppOptions>(Configuration.GetSection("MyApp"));
+
             services.AddRazorPages();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IOptionsMonitor<MyAppOptions> monitor)
         {
+            monitor.OnChange(
+                vals =>
+                {
+
+                });
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
